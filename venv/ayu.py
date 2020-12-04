@@ -2,8 +2,11 @@ import speech_recognition as sp
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import wikipedia
+import time
 from playsound import playsound
 from gtts import gTTS as gt
+import threading
+from datetime import datetime
 
 
  #it takes input from micrphone and convert it in text form and return
@@ -32,6 +35,12 @@ def functionality():
         wiki(fin_text)
     elif(option=="Open" or option=='open'):
         open_browser()
+    elif(option=='Set' or option=='set'):
+        reminder()
+    elif(option=='Yes' or option=='yes'):
+        functionality()
+    elif(option=='No' or option=='no'):
+        exit(0)
 
 
 
@@ -66,8 +75,31 @@ def open_browser():
     browser.get("https://www.google.com/")
     browser.find_element_by_class_name("gLFyf gsfi").click()
 
+def reminder():
+    actual_time=datetime.now()
+    print(actual_time)
+    hour=int(input("Enter the hour "))
+    minute=int(input("Enter the minute"))
+    alarm_time=datetime(2020,12,4,hour,minute,0)
+    diffrence=(alarm_time-actual_time)
+    diffrence=diffrence.total_seconds()
+    print(diffrence)
+    temp = "ok your reminder is set and i will inform you"
+    audio = gt(text=temp, lang='en', slow=False)
+    audio.save("summ.mp3")
+    playsound('summ.mp3')
+    timer=threading.Timer(diffrence,alarm_sound)
+    timer.start()
+
+def alarm_sound():
+    playsound("C:\\Users\\Ayush\\PycharmProjects\\mini_project\\venv\\Lib\\site-packages\\alarm.mp3",True)
+
 
 
 functionality()
+temp = "Want to quit or do something more"
+audio = gt(text=temp, lang='en', slow=False)
+audio.save("su.mp3")
+playsound('su.mp3')
 
 

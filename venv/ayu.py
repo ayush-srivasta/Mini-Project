@@ -92,6 +92,7 @@ def reminder():
     diffrence=(alarm_time-ab)
     diffrence=diffrence.total_seconds()
     print(diffrence)
+
     temp = "ok your reminder is set and i will inform you"
     audio = gt(text=temp, lang='en', slow=False)
     audio.save("summ.mp3")

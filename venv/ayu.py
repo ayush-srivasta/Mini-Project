@@ -77,11 +77,19 @@ def open_browser():
 
 def reminder():
     actual_time=datetime.now()
+    ab=actual_time
     print(actual_time)
+    actual_time=str(actual_time)
+    year=int(actual_time[0:4])
+    month=int(actual_time[5:7])
+    day=int(actual_time[8:10])
+    print(year)
+    print(month)
+    print(day)
     hour=int(input("Enter the hour "))
     minute=int(input("Enter the minute"))
-    alarm_time=datetime(2020,12,4,hour,minute,0)
-    diffrence=(alarm_time-actual_time)
+    alarm_time=datetime(year,month,day,hour,minute,0)
+    diffrence=(alarm_time-ab)
     diffrence=diffrence.total_seconds()
     print(diffrence)
     temp = "ok your reminder is set and i will inform you"

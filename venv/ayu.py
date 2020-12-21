@@ -7,6 +7,7 @@ from playsound import playsound
 from gtts import gTTS as gt
 import threading
 from datetime import datetime
+import subprocess
 
 
  #it takes input from micrphone and convert it in text form and return
@@ -20,7 +21,7 @@ def listen():
         text=pr.recognize_google(audio,language="en-in")
     return text
 # This function will decide which function to call on the basis of the user command
-def functionality():
+def functionality():         # kuch bhi
     text=listen().split()
     fin_text=""
     print(text)
@@ -103,12 +104,14 @@ def reminder():
 def alarm_sound():
     playsound("C:\\Users\\Ayush\\PycharmProjects\\mini_project\\venv\\Lib\\site-packages\\alarm.mp3",True)
 
+def calculator():
+    subprocess.Popen("C:\\Windows\\System32\\calc.exe")
 
-
-functionality()
-temp = "Want to quit or do something more"
-audio = gt(text=temp, lang='en', slow=False)
-audio.save("su.mp3")
-playsound('su.mp3')
+calculator()
+#functionality()
+# temp = "Want to quit or do something more"
+# audio = gt(text=temp, lang='en', slow=False)
+# audio.save("su.mp3")
+# playsound('su.mp3')
 
 

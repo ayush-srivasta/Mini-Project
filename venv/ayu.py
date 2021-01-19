@@ -34,7 +34,7 @@ def functionality():         # kuch bhi
         play_audio(fin_text)
     elif(option=='Who' or option=='who' or option=='What' or option=='what'):
         wiki(fin_text)
-    elif(option=="Open" or option=='open'):
+    elif('browser' in fin_text):
         open_browser()
     elif(option=='Set' or option=='set'):
         reminder()
@@ -42,6 +42,10 @@ def functionality():         # kuch bhi
         functionality()
     elif(option=='No' or option=='no'):
         exit(0)
+    elif 'calculator' in fin_text:
+        calculator()
+    elif 'Notepad' in fin_text:
+        openNodepad()
 
 
 
@@ -84,17 +88,19 @@ def reminder():
     year=int(actual_time[0:4])
     month=int(actual_time[5:7])
     day=int(actual_time[8:10])
-    print(year)
-    print(month)
-    print(day)
+    # print(year)
+    # print(month)
+    # print(day)
     hour=int(input("Enter the hour "))
     minute=int(input("Enter the minute"))
     alarm_time=datetime(year,month,day,hour,minute,0)
     diffrence=(alarm_time-ab)
     diffrence=diffrence.total_seconds()
-    print(diffrence)
+    diffrence=int(diffrence)
+    # print(diffrence)
 
-    temp = "ok your reminder is set and i will inform you"
+    temp = "ok your reminder is set and i will inform you after"+str(diffrence)+"seconds"
+
     audio = gt(text=temp, lang='en', slow=False)
     audio.save("summ.mp3")
     playsound('summ.mp3')
@@ -107,11 +113,21 @@ def alarm_sound():
 def calculator():
     subprocess.Popen("C:\\Windows\\System32\\calc.exe")
 
-calculator()
-#functionality()
+def openNodepad():
+    subprocess.Popen("C:\\Windows\\System32\\notepad.exe")
+# openNodepad()
+#calculator()
+functionality()
 # temp = "Want to quit or do something more"
 # audio = gt(text=temp, lang='en', slow=False)
 # audio.save("su.mp3")
 # playsound('su.mp3')
+def to_repeat():
+    temp="You want to quit or want to continue"
+    audio = gt(text=temp, lang='en', slow=False)
+    audio.save("to_repeat_sound.mp3")
+    playsound('to_repeat_sound.mp3')
+
+
 
 

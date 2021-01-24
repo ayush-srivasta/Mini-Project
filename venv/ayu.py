@@ -7,23 +7,37 @@ from playsound import playsound
 from gtts import gTTS as gt
 import threading
 from datetime import datetime
+import datetime
 import subprocess
 import os
+import cv2
 
  #it takes input from micrphone and convert it in text form and return
 def listen():
     with sp.Microphone() as micro:
-        global pr
-        pr=sp.Recognizer()
-        pr.energy_threshold=700
-        pr.adjust_for_ambient_noise(micro,0.5)
-        audio=pr.listen(micro)
-        text=pr.recognize_google(audio,language="en-in")
-    return text
+        try:
+            global pr
+            pr=sp.Recognizer()
+            pr.energy_threshold=700
+            pr.adjust_for_ambient_noise(micro,0.5)
+            audio=pr.listen(micro)
+            # print("Yaha tak to jaa raha hai")
+            text=pr.recognize_google(audio,language="en-in")
+            return text
+        except Exception:
+            msg="Sorry i did not get it repaet it again"
+            print(msg)
+            audio = gt(msg, lang='en', slow=False)
+            audio.save("start_sound.mp3")
+            playsound('start_sound.mp3')
+            os.remove("start_sound.mp3")
+            listen()
 # This function will decide which function to call on the basis of the user command
+
+
 def functionality():
    while True:
-        open_msg="What you want me to do"
+        open_msg=wish()+"What you want me to do"
         audio = gt(text=open_msg, lang='en', slow=False)
         audio.save("start_sound.mp3")
         playsound('start_sound.mp3')
@@ -44,10 +58,6 @@ def functionality():
             open_browser()
         elif(option=='Set' or option=='set'):
             reminder()
-    # elif(option=='Yes' or option=='yes'):
-    #     functionality()
-    # elif(option=='No' or option=='no'):
-    #     exit(0)
         elif 'calculator' in fin_text:
             calculator()
         elif 'Notepad' in fin_text:
@@ -93,6 +103,8 @@ def open_browser():
     browser.get("https://www.google.com/")
     browser.find_element_by_class_name("gLFyf gsfi").click()
 
+
+# this function will set a reminder
 def reminder():
     actual_time=datetime.now()
     ab=actual_time
@@ -121,16 +133,24 @@ def reminder():
     timer=threading.Timer(diffrence,alarm_sound)
     timer.start()
 
+
+# this function contains the alarm sound which we are using in the reminder function
 def alarm_sound():
     playsound("C:\\Users\\Ayush\\PycharmProjects\\mini_project\\venv\\Lib\\site-packages\\alarm.mp3",True)
 
+
+
+# this function will open calculator
 def calculator():
     subprocess.Popen("C:\\Windows\\System32\\calc.exe")
 
+
+# this fucntion will open notepad
 def openNodepad():
     subprocess.Popen("C:\\Windows\\System32\\notepad.exe")
-# openNodepad()
-#calculator()
+
+
+# this function will decide to terminate or to repeat the function
 def to_repeat():
     temp="You want to continue"
     audio = gt(text=temp, lang='en', slow=False)
@@ -143,18 +163,21 @@ def to_repeat():
         return True
     else:
         return False
+def wish():
+    hour = int(datetime.datetime.now().hour)
+    if 0 <= hour < 12:
+        w = "Good Morning"
+    elif 12 <= hour < 18:
+        w = "Good Afternoon"
+    else:
+        w = "Good Evening"
+    return w
 
-
-
-
+# main function
 if __name__ == "__main__":
     functionality()
 
 
-# temp = "Want to quit or do something more"
-# audio = gt(text=temp, lang='en', slow=False)
-# audio.save("su.mp3")
-# playsound('su.mp3')
 
 
 
